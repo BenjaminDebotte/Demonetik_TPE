@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Demonetik_TPE</string>
+    <string name="action_settings">Settings</string>
+
+    <!-- Strings TPE -->
+    <string name="montant">Montant</string>
+    <string name="annuler">Annuler</string>
+    <string name="corriger">Corriger</string>
+    <string name="valider">Valider</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
