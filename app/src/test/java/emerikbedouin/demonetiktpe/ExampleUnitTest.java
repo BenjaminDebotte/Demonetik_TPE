@@ -1,4 +1,4 @@
-package prototype.demonetik_tpe;
+package emerikbedouin.demonetiktpe;
 
 import org.junit.Test;
 

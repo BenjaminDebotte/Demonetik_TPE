@@ -1,122 +1,176 @@
-<LinearLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:orientation="vertical"
-android:layout_gravity="center"
-tools:context="prototype.demonetik_tpe.TPEFragment" >
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="emerikbedouin.demonetiktpe.TPEActivityFragment"
+    tools:showIn="@layout/activity_tpe">
 
-    <TextView
-        android:id="@+id/tpe_montant"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:editable="false"
-        android:text="@string/montant"/>
 
-    <TableLayout
+    <Button
+        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal" >
+        android:text="1"
+        android:id="@+id/button1"
+        android:layout_marginStart="58dp"
+        android:layout_alignTop="@+id/button2"
+        android:layout_toEndOf="@+id/textViewClavier" />
 
-        <TableRow>
-            <Button
-                android:id="@+id/tpe_bouton_1"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="1" />
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="2"
+        android:id="@+id/button2"
+        android:layout_below="@+id/textViewClavier"
+        android:layout_toEndOf="@+id/button1" />
 
-            <Button
-                android:id="@+id/tpe_bouton_2"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="2" />
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="3"
+        android:id="@+id/button3"
+        android:layout_above="@+id/button6"
+        android:layout_toEndOf="@+id/button2" />
 
-            <Button
-                android:id="@+id/tpe_bouton_3"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="3" />
-        </TableRow>
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="4"
+        android:id="@+id/button4"
+        android:layout_below="@+id/button1"
+        android:layout_alignStart="@+id/button1" />
 
-        <TableRow>
-            <Button
-                android:id="@+id/tpe_bouton_4"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="4" />
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="5"
+        android:id="@+id/button5"
+        android:layout_above="@+id/button8"
+        android:layout_alignStart="@+id/button2" />
 
-            <Button
-                android:id="@+id/tpe_bouton_5"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="5" />
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="6"
+        android:id="@+id/button6"
+        android:layout_below="@+id/button2"
+        android:layout_toEndOf="@+id/button5" />
 
-            <Button
-                android:id="@+id/tpe_bouton_6"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="6" />
-        </TableRow>
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="7"
+        android:id="@+id/button7"
+        android:layout_below="@+id/button4"
+        android:layout_alignStart="@+id/button4" />
 
-        <TableRow>
-            <Button
-                android:id="@+id/tpe_bouton_7"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="7" />
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="8"
+        android:id="@+id/button8"
+        android:layout_below="@+id/button4"
+        android:layout_toEndOf="@+id/button4" />
 
-            <Button
-                android:id="@+id/tpe_bouton_8"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="8" />
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="9"
+        android:id="@+id/button9"
+        android:layout_below="@+id/button6"
+        android:layout_toEndOf="@+id/button8" />
 
-            <Button
-                android:id="@+id/tpe_bouton_9"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="9" />
-        </TableRow>
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:id="@+id/button0"
+        android:layout_below="@+id/button8"
+        android:layout_alignStart="@+id/button2" />
 
-        <TableRow>
-            <Button
-                android:id="@+id/tpe_bouton_virgule"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="," />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Clavier"
+        android:id="@+id/textViewClavier"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true" />
 
-            <Button
-                android:id="@+id/tpe_bouton_0"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="0" />
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="C"
+        android:id="@+id/buttonC"
+        android:layout_below="@+id/button0"
+        android:layout_toStartOf="@+id/button0" />
 
-            <Button
-                android:id="@+id/tpe_bouton_diese"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="#" />
-        </TableRow>
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="A"
+        android:id="@+id/buttonA"
+        android:layout_alignBottom="@+id/buttonC"
+        android:layout_toEndOf="@+id/buttonC" />
 
-        <TableRow>
-            <Button
-                android:id="@+id/tpe_bouton_annuler"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="@string/annuler" />
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="V"
+        android:id="@+id/buttonV"
+        android:layout_alignBottom="@+id/buttonA"
+        android:layout_toEndOf="@+id/buttonA" />
 
-            <Button
-                android:id="@+id/tpe_bouton_corriger"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="@string/corriger" />
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_marginBottom="50dp"
+        android:progress="50"
+        android:indeterminate="false"
+        android:max="100"
+        android:layout_alignParentBottom="true"
+        android:layout_toEndOf="@+id/button7" />
 
-            <Button
-                android:id="@+id/tpe_bouton_valider"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:text="@string/valider" />
-        </TableRow>
-    </TableLayout>
-</LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Console"
+        android:id="@+id/textViewConsole"
+        android:background="#010101"
+        android:textColor="#29d619"
+        android:layout_below="@+id/buttonC"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="71dp"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Status"
+        android:id="@+id/textViewStatus"
+        android:background="#010101"
+        android:textColor="#29d619"
+        android:layout_below="@+id/textViewConsole"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="42dp"
+        android:layout_alignParentEnd="true" />
+</RelativeLayout>
