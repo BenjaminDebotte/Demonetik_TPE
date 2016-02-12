@@ -12,12 +12,12 @@ import android.widget.Toast;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class NFCActivityFragment extends Fragment implements NfcAdapter.ReaderCallback{
+public class NFCThread extends Fragment implements NfcAdapter.ReaderCallback{
 
 
     private NfcAdapter adapterNfc;
 
-    public NFCActivityFragment() {
+    public NFCThread() {
     }
 
     @Override
