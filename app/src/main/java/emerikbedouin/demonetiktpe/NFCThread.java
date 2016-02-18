@@ -64,7 +64,12 @@ public class NFCThread implements Runnable {
             cb.setEditText(R.id.nomPorteur, nomPorteur);
             cb.setEditText(R.id.numCarte, numCarte);
 
-            ret = send_apdu("B0 40 00 00 01 " + Integer.toHexString(montant));
+            String hexMontant = Integer.toHexString(montant);
+            hexMontant = (hexMontant.length() % 2 == 0 ? "" :"0") + hexMontant;
+            String taille = Integer.toHexString(hexMontant.length() / 2);
+
+            ret = send_apdu("B0 40 00 00 0" + taille + hexMontant);
+
             cb.setEditText(R.id.editIncrement, ret);
 
             //ret = send_apdu("B0 20 00 00 04 " + Integer.toHexString(pin));

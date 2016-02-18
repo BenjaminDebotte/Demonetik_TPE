@@ -24,4 +24,44 @@
     <!--Valeurs PIN-->
     <string name="entrer_pin">Entrez le code PIN</string>
     <string name="entrer_montant">Entrez le montant</string>
+    <string name="attente_demande_auto">En attente de l\'autorisation</string>
+
+    <!--Récapitulatif-->
+    <string name="nouvelle_transaction">Nouvelle transaction</string>
+
+    <!-- Paramètres -->
+    <string name="preference_webservice">Adresse WebService</string>
+    <string name="preference_webservice_default_ip">localhost</string>
+    <string name="preference_webservice_default_port">8080</string>
+    <string name="preference_webservice_default_path">DemonetikWebService/demonetik/transaction/</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <string name="pref_header_webservice">Connexion au WebService</string>
+
+
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
 </resources>

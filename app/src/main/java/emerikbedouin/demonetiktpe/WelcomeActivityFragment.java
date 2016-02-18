@@ -1,6 +1,8 @@
 package emerikbedouin.demonetiktpe;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,7 +20,16 @@ import java.io.InputStream;
  */
 public class WelcomeActivityFragment extends Fragment {
 
+
+    private String ip;
+    private String port;
+    private String path;
+    private String urlWebService;
+
+
     public WelcomeActivityFragment() {
+
+
     }
 
     @Override
@@ -26,23 +37,25 @@ public class WelcomeActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_welcome, container, false);
 
-       Button btnTransaction = (Button) rootView.findViewById(R.id.btnNewTransaction);
+        // On récupère les données des paramètres
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        ip = sp.getString("webservice_address_ip", getString(R.string.preference_webservice_default_ip));
+        port = sp.getString("webservice_address_port", getString(R.string.preference_webservice_default_port));
+        path = sp.getString("webservice_address_path", getString(R.string.preference_webservice_default_path));
+        urlWebService = "http://"+ip+":"+port+"/"+path;
+
+        Button btnTransaction = (Button) rootView.findViewById(R.id.btnNewTransaction);
 
         btnTransaction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                // Parametre WebService
-                String ipAddress = "192.168.43.233";
-                String port = "8080";
-                final String urlWebService = "http://"+ipAddress+":"+port+"/DemonetikWebService/demonetik/transaction/";
 
                 String fonctionWebService = "resettransaction";
                 HttpRequestParameters request = ClientWebService.getClientWebService(getActivity(), urlWebService + fonctionWebService, "GET", "text/plain", null);
                 new DataWebService().execute(request);
 
                 Intent intent = new Intent(getActivity(), TPEActivity.class);
-                //Lancement de l'activité client
+                intent.putExtra("url", urlWebService);
                 startActivity(intent);
 
             }
@@ -74,12 +87,6 @@ public class WelcomeActivityFragment extends Fragment {
                 Log.e("Erreur WelcomeActivity", e.getMessage());
                 return param[0];
             }
-        }
-
-        // onPostExecute displays the results of the AsyncTask
-        protected void onPostExecute(String result) {
-
-            System.out.println("on Post time !");
         }
     }
 }

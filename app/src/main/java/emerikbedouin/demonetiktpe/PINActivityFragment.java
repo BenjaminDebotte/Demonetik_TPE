@@ -1,23 +1,26 @@
 package emerikbedouin.demonetiktpe;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SyncStatusObserver;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
+
+import example.utils.StringUtils;
 
 /**
  * Created by guillaume on 15/02/16.
@@ -29,12 +32,13 @@ public class PINActivityFragment extends Fragment {
     protected TextView textViewConsole;
     protected  boolean operationStart;
 
+    private String resTransaction;
 
     public PINActivityFragment() {
 
-
     }
 
+    // Méthodes de chiffrement du code PIN
     private int encipher_PIN(int plain_pin) {
     	return plain_pin ^ CIPHER_KEY;
     }
@@ -49,11 +53,7 @@ public class PINActivityFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_tpe, container, false);
 
-        // Parametre WebService
-        String ipAddress = "192.168.43.233";
-        String port = "8080";
-        final String urlWebService = "http://"+ipAddress+":"+port+"/DemonetikWebService/demonetik/transaction/";
-
+        final String urlWebService = getActivity().getIntent().getStringExtra("url");
 
         consoleEditable = true;
         operationStart = false;
@@ -101,28 +101,32 @@ public class PINActivityFragment extends Fragment {
             public void onClick(View v) {
             try {
 
-                consoleEditable = false;
+                int pin = Integer.parseInt(textViewConsole.getText().toString());
+                int pinChiffre = encipher_PIN(pin);
 
                 // Demande auto
                 String fonctionWebService = "demandeauto";
                 HashMap<String, String> params = new HashMap<String, String>();
-                params.put("pin", textViewConsole.getText().toString());
+                params.put("pin", String.valueOf(pinChiffre));
                 HttpRequestParameters request = ClientWebService.getClientWebService(getActivity(), urlWebService + fonctionWebService, "POST", "text/plain", params);
-                new DataWebService().execute(request);
+                new DataWebService().execute(request).get();
 
-                //wait(3000);
-
+                Toast.makeText(getActivity().getApplicationContext(), R.string.attente_demande_auto, Toast.LENGTH_LONG);
+                // On attend 5 secondes
+                Thread.sleep(5000);
 
                 String fonctionWebService2 = "demandeautoresultat";
                 HttpRequestParameters request2 = ClientWebService.getClientWebService(getActivity(), urlWebService + fonctionWebService2, "GET", "text/plain", null);
-                new DataWebService().execute(request2);
+                new DataWebServiceReponse().execute(request2).get();
 
-                Intent intent = new Intent(getActivity().getApplicationContext(), RecapitulatifActivity.class);
-                intent.putExtra("pin", params.get("pin"));
+                Intent intent = new Intent(getActivity(), RecapitulatifActivity.class);
+                intent.putExtra("url", urlWebService);
+                intent.putExtra("pin", String.valueOf(pin));
                 intent.putExtra("montant", getActivity().getIntent().getStringExtra("montant"));
                 intent.putExtra("nom", getActivity().getIntent().getStringExtra("nom"));
                 intent.putExtra("prenom", getActivity().getIntent().getStringExtra("prenom"));
                 intent.putExtra("numCarte", getActivity().getIntent().getStringExtra("numCarte"));
+                intent.putExtra("resTransaction", resTransaction);
                 startActivity(intent);
             }
             catch (Exception ex) {
@@ -133,12 +137,6 @@ public class PINActivityFragment extends Fragment {
 
         return rootView;
     }
-
-
-
-
-
-
 
     /**
      * OnClickListener pour les boutons du pinpad
@@ -191,15 +189,47 @@ public class PINActivityFragment extends Fragment {
                 return param[0];
             }
         }
+    }
 
-        // onPostExecute displays the results of the AsyncTask
-        protected void onPostExecute(String result) {
+    // Fait la même chose que DataWebService mais lit la réponse envoyée par le webservice
+    private class DataWebServiceReponse extends AsyncTask<HttpRequestParameters, Void, String> {
 
-            System.out.println("on Post time !");
+        protected String doInBackground(HttpRequestParameters... param) {
+            try {
+
+
+                InputStream is = ConnexionDataWebService.connexionToWebService(param[0]);
+                if (is != null) {
+
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+                    StringBuilder out = new StringBuilder();
+                    String newLine = System.getProperty("line.separator");
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        out.append(line);
+                        out.append(newLine);
+                    }
+
+                    resTransaction = out.toString();
+                } else {
+
+                    Log.e("Erreur PINActivity", "Pas de réponse du webservice");
+                    resTransaction = "Réponse vide";
+                }
+
+            } catch (IOException e) {
+
+                Log.e("Erreur PINActivity", e.getMessage());
+                resTransaction = "Pas de réponse";
+            }
+
+            // Résultat de la transaction
+            if(resTransaction.contains("1"))
+                resTransaction = "Transaction autorisée";
+            else if (resTransaction.contains("0"))
+                resTransaction = "Transaction refusée";
+
+            return resTransaction;
         }
     }
-    
-    
-    
-    
 }

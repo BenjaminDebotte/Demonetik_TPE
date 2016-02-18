@@ -66,9 +66,7 @@ public class NFCActivity extends AppCompatActivity implements NfcAdapter.ReaderC
             @Override
             public void onClick(View v) {
 
-                String ipAddress = "192.168.43.233";
-                String port = "8080";
-                final String urlWebService = "http://"+ipAddress+":"+port+"/DemonetikWebService/demonetik/transaction/";
+                final String urlWebService = getIntent().getStringExtra("url");
 
 
                 String carte = numCarte.getText().toString();
@@ -87,6 +85,7 @@ public class NFCActivity extends AppCompatActivity implements NfcAdapter.ReaderC
                 new DataWebService().execute(request);
 
                 Intent intent = new Intent(getApplicationContext(), PINActivity.class);
+                intent.putExtra("url", urlWebService);
                 intent.putExtra("montant", getIntent().getStringExtra("montant"));
                 intent.putExtra("nom", nom);
                 intent.putExtra("prenom", prenom);

@@ -39,10 +39,7 @@ public class TPEActivityFragment extends Fragment {
 
         View rootView = inflater.inflate(R.layout.fragment_tpe, container, false);
 
-        // Parametre WebService
-        String ipAddress = "192.168.43.233";
-        String port = "8080";
-        final String urlWebService = "http://"+ipAddress+":"+port+"/DemonetikWebService/demonetik/transaction/";
+        final String urlWebService = getActivity().getIntent().getStringExtra("url");
 
 
         // initialisation de la transaction : Requete Webservice
@@ -107,6 +104,7 @@ public class TPEActivityFragment extends Fragment {
                     consoleEditable = false;
 
                     Intent intent = new Intent(getContext(), NFCActivity.class);
+                    intent.putExtra("url", urlWebService);
                     intent.putExtra("montant", textViewConsole.getText().toString());
                     startActivity(intent);
                 }
@@ -118,12 +116,6 @@ public class TPEActivityFragment extends Fragment {
 
         return rootView;
     }
-
-
-
-
-
-
 
     /**
      * OnClickListener pour les boutons du pinpad

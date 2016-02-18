@@ -44,6 +44,10 @@
             android:name=".RecapitulatifActivity"
             android:label="@string/title_activity_recapitulatif"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".settings.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName="WelcomeActivity"></activity>
     </application>
 
 </manifest>
