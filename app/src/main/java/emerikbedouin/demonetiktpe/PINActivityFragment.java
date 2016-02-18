@@ -92,36 +92,28 @@ public class PINActivityFragment extends Fragment {
             public void onClick(View v) {
             try {
 
-                // Envoi des infos porteur
-                String fonctionWebService = "infoporteur";
-                HashMap<String, String> params = new HashMap<String, String>();
-                params.put("nom", getActivity().getIntent().getStringExtra("nomPorteur"));
-                params.put("prenom", getActivity().getIntent().getStringExtra("prenomPorteur"));
-                params.put("numcarte", getActivity().getIntent().getStringExtra("numCarte"));
-                HttpRequestParameters request = ClientWebService.getClientWebService(getActivity(), urlWebService + fonctionWebService, "POST", "text/plain", params);
-                new DataWebService().execute(request);
                 consoleEditable = false;
 
                 // Demande auto
-                String fonctionWebService2 = "demandeauto";
-                HashMap<String, String> params2 = new HashMap<String, String>();
+                String fonctionWebService = "demandeauto";
+                HashMap<String, String> params = new HashMap<String, String>();
                 params.put("pin", textViewConsole.getText().toString());
-                HttpRequestParameters request2 = ClientWebService.getClientWebService(getActivity(), urlWebService + fonctionWebService2, "POST", "text/plain", params);
-                new DataWebService().execute(request2);
-
-                Log.e("demande auto", "done");
+                HttpRequestParameters request = ClientWebService.getClientWebService(getActivity(), urlWebService + fonctionWebService, "POST", "text/plain", params);
+                new DataWebService().execute(request);
 
                 //wait(3000);
 
 
-                String fonctionWebService3 = "demandeautoresultat";
-                HttpRequestParameters request3 = ClientWebService.getClientWebService(getActivity(), urlWebService + fonctionWebService3, "GET", "text/plain", null);
-                new DataWebService().execute(request3);
-
-                Log.e("demande auto resultat", "done");
+                String fonctionWebService2 = "demandeautoresultat";
+                HttpRequestParameters request2 = ClientWebService.getClientWebService(getActivity(), urlWebService + fonctionWebService2, "GET", "text/plain", null);
+                new DataWebService().execute(request2);
 
                 Intent intent = new Intent(getActivity().getApplicationContext(), RecapitulatifActivity.class);
-                intent.putExtra("pin", Integer.parseInt(params.get("pin")));
+                intent.putExtra("pin", params.get("pin"));
+                intent.putExtra("montant", getActivity().getIntent().getStringExtra("montant"));
+                intent.putExtra("nom", getActivity().getIntent().getStringExtra("nom"));
+                intent.putExtra("prenom", getActivity().getIntent().getStringExtra("prenom"));
+                intent.putExtra("numCarte", getActivity().getIntent().getStringExtra("numCarte"));
                 startActivity(intent);
             }
             catch (Exception ex) {
@@ -177,7 +169,6 @@ public class PINActivityFragment extends Fragment {
 
                     // traitement du retour si échéant
 
-                    Log.e("coucoucoucoucou", is.toString());
                     return param[0];
                 } else {
 

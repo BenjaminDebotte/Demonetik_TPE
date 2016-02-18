@@ -4,6 +4,7 @@
     <string name="title_activity_tpe">TPEActivity</string>
     <string name="title_activity_pin">PINActivity</string>
     <string name="title_activity_nfc">NFCActivity</string>
+    <string name="title_activity_recapitulatif">Recapitulatif de la transaction</string>
 
     <!-- NFC -->
     <string name="btRead">Lire l\'applet de test</string>
@@ -15,10 +16,12 @@
     <string name="txtId">Card ID</string>
     <string name="txtNomPorteur">Nom Porteur</string>
     <string name="txtNumCarte">Numero Carte</string>
+    <string name="txtMontant">Montant transaction</string>
+    <string name="txtPIN">Code PIN</string>
     <string name="txtIncrement">Increment Response</string>
+    <string name="txtResTransaction">Résultat de la transaction</string>
 
     <!--Valeurs PIN-->
     <string name="entrer_pin">Entrez le code PIN</string>
     <string name="entrer_montant">Entrez le montant</string>
-    <string name="title_activity_recapitulatif">RecapitulatifActivity</string>
 </resources>

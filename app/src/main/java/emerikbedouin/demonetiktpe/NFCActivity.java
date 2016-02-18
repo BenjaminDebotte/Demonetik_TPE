@@ -8,6 +8,7 @@ import android.nfc.NfcAdapter;
 import android.nfc.Tag;
 import android.nfc.tech.IsoDep;
 import android.nfc.tech.NfcA;
+import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,6 +16,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.HashMap;
 
 /**
  * @link old version : http://www.java2s.com/Open-Source/Android_Free_Code/NFC/reader/org_docrj_smartcard_readerReaderActivity_java.htm
@@ -61,16 +66,31 @@ public class NFCActivity extends AppCompatActivity implements NfcAdapter.ReaderC
             @Override
             public void onClick(View v) {
 
+                String ipAddress = "192.168.43.233";
+                String port = "8080";
+                final String urlWebService = "http://"+ipAddress+":"+port+"/DemonetikWebService/demonetik/transaction/";
+
+
+                String carte = numCarte.getText().toString();
                 String porteur = nomPorteur.getText().toString();
                 String[] infosPorteur = porteur.split(" ");
                 String prenom = infosPorteur[0];
                 String nom = infosPorteur[1];
 
+                // Envoi des infos porteur
+                String fonctionWebService = "infoporteur";
+                HashMap<String, String> params = new HashMap<String, String>();
+                params.put("nom", nom);
+                params.put("prenom", prenom);
+                params.put("numcarte", carte);
+                HttpRequestParameters request = ClientWebService.getClientWebService(NFCActivity.this, urlWebService + fonctionWebService, "POST", "text/plain", params);
+                new DataWebService().execute(request);
+
                 Intent intent = new Intent(getApplicationContext(), PINActivity.class);
                 intent.putExtra("montant", getIntent().getStringExtra("montant"));
-                intent.putExtra("nomPorteur", nom);
-                intent.putExtra("prenomPorteur", prenom);
-                intent.putExtra("numCarte", numCarte.getText().toString());
+                intent.putExtra("nom", nom);
+                intent.putExtra("prenom", prenom);
+                intent.putExtra("numCarte", carte);
                 startActivity(intent);
             }
         });
@@ -179,5 +199,36 @@ public class NFCActivity extends AppCompatActivity implements NfcAdapter.ReaderC
 
         Runnable nfcr = new NFCThread(this, tag, this, montant);
         new Thread(nfcr).start();
+    }
+
+    private class DataWebService extends AsyncTask<HttpRequestParameters, Void, HttpRequestParameters> {
+
+        protected HttpRequestParameters doInBackground(HttpRequestParameters... param) {
+            try {
+
+                InputStream is = ConnexionDataWebService.connexionToWebService(param[0]);
+                if (is != null) {
+
+                    // traitement du retour si échéant
+
+                    return param[0];
+                } else {
+
+                    Log.e("Erreur NFCActivity", "Pas de réponse du webservice");
+                    return param[0];
+                }
+
+            } catch (IOException e) {
+
+                Log.e("Erreur NFCActivity", e.getMessage());
+                return param[0];
+            }
+        }
+
+        // onPostExecute displays the results of the AsyncTask
+        protected void onPostExecute(String result) {
+
+            System.out.println("on Post time !");
+        }
     }
 }
