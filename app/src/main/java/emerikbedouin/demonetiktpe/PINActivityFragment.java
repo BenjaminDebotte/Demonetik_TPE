@@ -24,6 +24,7 @@ import java.util.HashMap;
  */
 public class PINActivityFragment extends Fragment {
 
+	private final int CIPHER_KEY = 0xFA6C7D87;
     private boolean consoleEditable;
     protected TextView textViewConsole;
     protected  boolean operationStart;
@@ -34,6 +35,14 @@ public class PINActivityFragment extends Fragment {
 
     }
 
+    private int encipher_PIN(int plain_pin) {
+    	return plain_pin ^ CIPHER_KEY;
+    }
+    private int decipher_PIN(int cipher_pin) {
+    	return cipher_pin ^ CIPHER_KEY;
+    }
+    
+    
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -198,4 +207,8 @@ public class PINActivityFragment extends Fragment {
             System.out.println("on Post time !");
         }
     }
+    
+    
+    
+    
 }
