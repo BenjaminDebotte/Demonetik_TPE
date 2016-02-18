@@ -1,57 +1,92 @@
 package emerikbedouin.demonetiktpe;
 
-import android.nfc.NfcAdapter;
+import android.content.Context;
 import android.nfc.Tag;
-import android.support.v4.app.Fragment;
-import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
+import android.nfc.tech.IsoDep;
+import android.util.Log;
+
+import java.io.IOException;
+
+import static example.utils.StringUtils.*;
 
 /**
- * A placeholder fragment containing a simple view.
+ * Created by Joan on 09/12/2015.
  */
-public class NFCThread extends Fragment implements NfcAdapter.ReaderCallback{
+public class NFCThread implements Runnable {
 
+    public static final String TAG = "CardReaderTestThread";
 
-    private NfcAdapter adapterNfc;
-
-    public NFCThread() {
+    public interface UiCallback {
+        void showMessage(String msg);
+        void setEditText(int id, String txt);
     }
 
+    private Context context;
+    private Tag tag;
+    private UiCallback cb;
+    private int montant;
+
+    public NFCThread(Context context, Tag tag, UiCallback cb, int montant) {
+        this.context = context;
+        this.tag = tag;
+        this.cb = cb;
+        this.montant = montant;
+    }
+
+    private IsoDep iso;
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public void run() {
+        String id = convertByteArrayToHexString(tag.getId());
+        Log.d(TAG, "Tag detect " + id);
+        cb.showMessage("Tag detect "+id);
+        cb.setEditText(R.id.editId, id);
 
-        View rootView = inflater.inflate(R.layout.fragment_nfc, container, false);
-
-
-        adapterNfc = NfcAdapter.getDefaultAdapter(this.getActivity());
-
-        if (!adapterNfc.isEnabled()) {
-
-            ///Afficher message
-            showMessage("NFC not activated");
-            System.out.println("NFC not activated");
+        iso = IsoDep.get(tag);
+        if (iso == null) {
+            cb.showMessage(context.getString(R.string.non_iso));
+            return;
+        }
+        try {
+            iso.connect();
+        } catch (IOException e) {
+            cb.showMessage(context.getString(R.string.iso_connect_error));
+            Log.e(TAG, context.getString(R.string.iso_connect_error) + " : " + e.getMessage());
+            return;
         }
 
-        return rootView;
-    }
+        try {
+            String ret = send_apdu("00 A4 04 00 09 F0 01 02 03 04 48 43 45 01 00");
+            ret = convertHexToString(ret);
+            String[] infosPorteur = ret.split(" ");
+            String nomPorteur = infosPorteur[0] + " " + infosPorteur[1];
+            String numCarte = infosPorteur[2] + " " + infosPorteur[3] + " " + infosPorteur[4] + " " + infosPorteur[5];
+            cb.setEditText(R.id.nomPorteur, nomPorteur);
+            cb.setEditText(R.id.numCarte, numCarte);
 
-    @Override
-    public void onTagDiscovered(Tag tag) {
+            ret = send_apdu("B0 40 00 00 01 " + Integer.toHexString(montant));
+            cb.setEditText(R.id.editIncrement, ret);
 
-    }
+            //ret = send_apdu("B0 20 00 00 04 " + Integer.toHexString(pin));
 
-
-
-    public void showMessage(final String msg) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+        } catch (IOException e) {
+            cb.showMessage(context.getString(R.string.iso_read_error));
+            Log.e(TAG, context.getString(R.string.iso_read_error) + " : " + e.getMessage());
+        } finally {
+            try {
+                iso.close();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-        });
+        }
+    }
+
+    private String send_apdu(String sapdu) throws IOException {
+        Log.i(TAG, "SEND -> " + sapdu);
+        final byte [] apdu = convertHexStringToByteArray(removeSpaces(sapdu));
+        byte [] recv = iso.transceive(apdu);
+        String ret = convertByteArrayToHexString(recv);
+        Log.i(TAG, "RECV <- " + ret);
+        return ret;
     }
 }

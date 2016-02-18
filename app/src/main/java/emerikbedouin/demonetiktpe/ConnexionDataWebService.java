@@ -16,9 +16,10 @@ import java.util.Set;
 /**
  * Created by guillaume on 12/02/16.
  */
-public final class ConnexionDataWebService {
+public class ConnexionDataWebService {
 
-    public InputStream connexionToWebService(HttpRequestParameters params) throws IOException {
+
+    public static InputStream connexionToWebService(HttpRequestParameters params) throws IOException {
 
         try {
 
@@ -44,12 +45,16 @@ public final class ConnexionDataWebService {
 
                 // Get an iterator
                 Iterator i = set.iterator();
-
+                boolean first = true;
                 while (i.hasNext()) {
+                    if(first == false){
+                        writer.write("&");
+                    }
                     Map.Entry me = (Map.Entry) i.next();
                     System.out.print(me.getKey() + ": ");
                     System.out.println(me.getValue());
                     writer.write(me.getKey() + "=" + me.getValue());
+                    first = false;
                 }
 
                 writer.flush();

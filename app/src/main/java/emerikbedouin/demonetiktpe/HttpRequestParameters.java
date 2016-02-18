@@ -1,5 +1,6 @@
 package emerikbedouin.demonetiktpe;
 
+import java.util.HashMap;
 import java.util.LinkedList;
 
 /**
@@ -9,10 +10,10 @@ public class HttpRequestParameters {
     private String url;
     private String requestType;
     private String dataReturnType;
-    private LinkedList<String> parameters;
+    private HashMap<String, String> parameters;
     private String result;
 
-    public HttpRequestParameters(String url, String requestType, String dataReturnType, LinkedList<String> parameters) {
+    public HttpRequestParameters(String url, String requestType, String dataReturnType, HashMap<String, String> parameters) {
         this.url = url;
         this.requestType = requestType;
         this.dataReturnType = dataReturnType;
@@ -43,11 +44,11 @@ public class HttpRequestParameters {
         this.dataReturnType = dataReturnType;
     }
 
-    public LinkedList<String> getParameters() {
+    public HashMap<String, String> getParameters() {
         return parameters;
     }
 
-    public void setParameters(LinkedList<String> parameters) {
+    public void setParameters(HashMap<String, String> parameters) {
         this.parameters = parameters;
     }
 

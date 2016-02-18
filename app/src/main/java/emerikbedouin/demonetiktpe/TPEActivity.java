@@ -14,9 +14,7 @@ public class TPEActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tpe);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.entrer_montant);
         setSupportActionBar(toolbar);
-
-
     }
-
 }
