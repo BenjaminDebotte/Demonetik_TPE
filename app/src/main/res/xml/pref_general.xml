@@ -1,0 +1,33 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/preference_webservice_default_ip"
+        android:inputType="textCapWords"
+        android:key="webservice_address_ip"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/preference_webservice" />
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/preference_webservice_default_port"
+        android:inputType="textCapWords"
+        android:key="webservice_address_port"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/preference_webservice" />
+    <EditTextPreference
+        android:capitalize="words"
+        android:defaultValue="@string/preference_webservice_default_path"
+        android:inputType="textCapWords"
+        android:key="webservice_address_path"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:singleLine="true"
+        android:title="@string/preference_webservice" />
+
+
+</PreferenceScreen>

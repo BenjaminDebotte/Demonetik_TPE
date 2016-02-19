@@ -109,7 +109,7 @@ public class TPEActivityFragment extends Fragment {
                     startActivity(intent);
                 }
                 catch (Exception ex) {
-                    System.out.println("Erreur validation du montant : " + ex.getMessage());
+                    Log.e("Erreur validation du montant : ", ex.getMessage());
                 }
             }
         });
@@ -140,7 +140,7 @@ public class TPEActivityFragment extends Fragment {
                 }
             }
             catch(Exception ex){
-                System.out.println(ex.getMessage());
+                Log.e("TPEActivity", ex.getMessage());
             }
         }
     }
@@ -167,12 +167,6 @@ public class TPEActivityFragment extends Fragment {
                 Log.e("Erreur TPEActivity", e.getMessage());
                 return param[0];
             }
-        }
-
-        // onPostExecute displays the results of the AsyncTask
-        protected void onPostExecute(String result) {
-
-            System.out.println("on Post time !");
         }
     }
 }

@@ -161,7 +161,7 @@ public class PINActivityFragment extends Fragment {
                 }
             }
             catch(Exception ex){
-                System.out.println(ex.getMessage());
+                Log.e("PINActivity", ex.getMessage());
             }
         }
     }
